@@ -62,4 +62,4 @@ def perform
     get_townhall_urls
 end 
 
-perform
+performq
