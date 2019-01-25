@@ -48,7 +48,7 @@ class Scrapper
 
 
 # --------------------------------
-#  METHODE PERMETTANT DE RECUPERER LE MAIL DU DEPARTEMENT A PARTIR DE L'URL DE LA MAIRIE
+#  METHODE PERMETTANT DE RECUPERER LE DEPARTEMENT A PARTIR DE L'URL DE LA MAIRIE
 # --------------------------------
 
 def get_townhall_department(townhall_url) 
