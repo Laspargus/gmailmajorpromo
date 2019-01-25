@@ -95,7 +95,7 @@ end
             name_town = a[i].text 
           
       #Je mets tout ça dans un hash = { "ville_1" => "email_1" }
-            my_hash = my_hash = {name: name_town, mail: mail_town, department: department_town}
+            my_hash = {name: name_town, mail: mail_town, department: department_town}
             puts my_hash
 
       #Je mets tout mes hash dans un array
