@@ -15,13 +15,27 @@ doc = Nokogiri::HTML(open(townhall_url))
 return mail
 end
 
+
+#METHODE PERMETTANT DE RECUPERER LE MAIL DE LA MAIRIE A PARTIR DE L'URL DE LA MAIRIE
+def get_townhall_department(townhall_url) 
+
+doc = Nokogiri::HTML(open(townhall_url))
+
+    # J'utilise le xpath (position absolue du mail dans le tableau, 4eme ligne, 2ème colonne)en espérant qu'il soit le même sur chaque page de mairie
+    # Une méthode plus sur consisterait à récupérer le mail en regex dans le tableau
+    department = doc.xpath('/html/body/div/main/section[4]/div/table/tbody/tr[1]/td[2]').text
+
+return department
+end
+
+
 #METHODE PERMETTANT DE RECUPERER UN TABLEAU AVEC DES COUPLES DE HASH NOM > MAIRIE => LIEN PAGE MAIRIE
 
 def get_townhall_urls
 
     my_array=[]
   
-    doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/val-d-oise.html"))
+    doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/haute-vienne.html"))
     
     #Je me place sur le a.lientxt
       a = doc.css('tr//a.lientxt')
@@ -37,12 +51,16 @@ def get_townhall_urls
           puts mail_town
     
 
+    #Je lance la méthode pour récupérer les départements 
+          department_town = get_townhall_department(url_town)
+          puts department_town
+
     #Je récupère les noms des mairies
           name_town = a[i].text 
           puts name_town
 
     #Je mets tout ça dans un hash = { "ville_1" => "email_1" }
-          my_hash = {name_town => mail_town}
+          my_hash = {name: name_town, mail: mail_town, department: department_town}
           puts my_hash
 
     #Je mets tout mes hash dans un array
@@ -62,4 +80,4 @@ def perform
     get_townhall_urls
 end 
 
-performq
+perform
