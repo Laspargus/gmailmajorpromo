@@ -2,6 +2,10 @@ require 'google/apis/gmail_v1'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
+require 'mime'
+require 'pry'
+include MIME
+
 
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
 APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
@@ -10,7 +14,7 @@ CREDENTIALS_PATH = 'credentials.json'.freeze
 # created automatically when the authorization flow completes for the first
 # time.
 TOKEN_PATH = 'token.yaml'.freeze
-SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+SCOPE = Google::Apis::GmailV1::AUTH_SCOPE
 
 ##
 # Ensure valid credentials, either by restoring from the saved credentials
@@ -36,30 +40,49 @@ def authorize
   credentials
 end
 
-# Initialize the API
-service = Google::Apis::GmailV1::GmailService.new
-service.client_options.application_name = APPLICATION_NAME
-service.authorization = authorize
 
-# Show the user's labels
-user_id = 'me'
-result = service.list_user_labels(user_id)
-puts 'Labels:'
-puts 'No labels found' if result.labels.empty?
-result.labels.each { |label| puts "- #{label.name}" }
 
-# Création du contenu du message
-msg = Mail.new #msg est une instance de la classe « Mail ». On va définir ses variables d’instance
-msg.date = Time.now
-msg.subject = 'ceci est un test'
-msg.body = Text.new('coucou!', 'plain', 'charset' => 'us-ascii')
-msg.from = {'majorsdepromo.thp@gmail.com' => 'Coucou Man'}
-msg.to   = {
-    'maxime.speroni@gmail.com' => nil,
-}
 
-# Création de la requête, insertion du contenu dans la propriété `raw`
-#(https://developers.google.com/gmail/api/v1/reference/users/messages/send)
-message = Google::Apis::GmailV1::Message.new(raw: msg.to_s)
+class Mail
 
-service.send_user_message('me', message)
+
+ def send_message(city, mail)
+  
+
+
+    # Initialize the API
+    @service = Google::Apis::GmailV1::GmailService.new
+    @service.client_options.application_name = APPLICATION_NAME
+    @service.authorization = authorize
+
+    # Show the user's labels
+    user_id = 'me'
+    result = @service.list_user_labels(user_id)
+    #puts 'Labels:'
+    #puts 'No labels found' if result.labels.empty?
+    #result.labels.each { |label| puts "- #{label.name}" }
+  
+
+    # Création du contenu du message
+    msg = Mail.new #msg est une instance de la classe « Mail ». On va définir ses variables d’instance
+    msg.date = Time.now
+    msg.subject = 'Resto du coeur'
+    msg.body = Text.new("Bonjour, Je m'appelle Nicolas et je permets de contacter la mairie de #{city} à propos du remarquable travail que font Les Restos du Coeur. Cette association répand le bien dans la France et aide les plus démunis à s'en tirer.
+    Avez-vous pensé à travailler avec eux ? Soutenir Les Restos du Coeur, c'est important pour notre cohésion sociale : rejoignez le mouvement !
+    Merci à vous", 'plain', 'charset' => 'us-ascii')
+    msg.from = {'majorsdepromo.thp@gmail.com' => 'LesRestosduCoeur'}
+    msg.to   = {
+        mail => nil,
+    }
+
+    # Création de la requête, insertion du contenu dans la propriété `raw`
+    #(https://developers.google.com/gmail/api/v1/reference/users/messages/send)
+    message = Google::Apis::GmailV1::Message.new(raw: msg.to_s)
+
+    @service.send_user_message('me', message)
+
+    puts "Message envoyé à #{city} au mail #{mail}"
+
+  end
+
+end
