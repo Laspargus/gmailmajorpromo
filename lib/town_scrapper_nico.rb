@@ -73,7 +73,7 @@ end
   def get_townhall_urls
 
     
-      doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/val-d-oise.html"))
+      doc = Nokogiri::HTML(open("http://annuaire-des-mairies.com/haute-vienne.html"))
       
       #Je me place sur le a.lientxt
         a = doc.css('tr//a.lientxt')
