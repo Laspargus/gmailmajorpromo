@@ -116,7 +116,7 @@ end
 
   def save_as_json
 
-    File.open("db/input.json","w") do |f|
+    File.open("db/input_nico.json","w") do |f|
       f.write(@my_array.to_json)
 
       end
@@ -160,7 +160,7 @@ end
 
   def save_as_csv
 
-      csv = File.open("db/input_nico.csv","w")
+      csv = File.open("db/input.csv","w")
         @my_array.each do |hash|
           hash.each do |town, mail|
               csv.puts ("#{town},#{mail}")
