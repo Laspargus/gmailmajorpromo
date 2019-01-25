@@ -16,7 +16,7 @@ return mail
 end
 
 
-#METHODE PERMETTANT DE RECUPERER LE MAIL DE LA MAIRIE A PARTIR DE L'URL DE LA MAIRIE
+#METHODE PERMETTANT DE RECUPERER LE DEPARTEMENT DE LA MAIRIE A PARTIR DE L'URL DE LA MAIRIE
 def get_townhall_department(townhall_url) 
 
 doc = Nokogiri::HTML(open(townhall_url))
